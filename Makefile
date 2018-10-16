@@ -1,9 +1,11 @@
+VERSION:=v0.1.1
+
 all: clean build
 
 build:
 	cp README.md src/
 	cd src ; \
-	zip ../Yubikey-for-Alfred.alfredworkflow . -r --exclude=*.DS_Store* --exclude=*.pyc* --exclude=*.pyo*
+	zip ../Yubikey-for-Alfred-$(VERSION).alfredworkflow . -r --exclude=*.DS_Store* --exclude=*.pyc* --exclude=*.pyo*
 	rm src/README.md
 
 clean:

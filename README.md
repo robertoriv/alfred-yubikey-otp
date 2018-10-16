@@ -22,7 +22,7 @@ brew install ykman
 
 ## Usage
 
-By default `yfa` is setup as a keyword for _Yubikey OTP for Alfred_. 
+Set up a keyword for `Yubikey OTP for Alfred` by opening the workflow setting, double-clicking on the `Script Filter` input and filling in the keyword field (ex: `yfa`).
 
 Launch `Alfred`, and type `yfa <some ifentifier>`. Once the desired entry shows up, hit `Enter` to copy it to your clipboard.
 

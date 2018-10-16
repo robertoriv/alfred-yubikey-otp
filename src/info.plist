@@ -25,7 +25,7 @@
 		<array>
 			<dict>
 				<key>destinationuid</key>
-				<string>FE5E9B5F-1C87-4C59-BA2C-4E48AF0BCE45</string>
+				<string>533E4881-BAC3-42A1-9054-503E1A389CFC</string>
 				<key>modifiers</key>
 				<integer>0</integer>
 				<key>modifiersubtext</key>
@@ -36,19 +36,6 @@
 		</array>
 		<key>533E4881-BAC3-42A1-9054-503E1A389CFC</key>
 		<array/>
-		<key>FE5E9B5F-1C87-4C59-BA2C-4E48AF0BCE45</key>
-		<array>
-			<dict>
-				<key>destinationuid</key>
-				<string>533E4881-BAC3-42A1-9054-503E1A389CFC</string>
-				<key>modifiers</key>
-				<integer>0</integer>
-				<key>modifiersubtext</key>
-				<string></string>
-				<key>vitoclose</key>
-				<false/>
-			</dict>
-		</array>
 	</dict>
 	<key>createdby</key>
 	<string>Roberto Rivera</string>
@@ -111,7 +98,7 @@
 			<key>config</key>
 			<dict>
 				<key>autopaste</key>
-				<false/>
+				<true/>
 				<key>clipboardtext</key>
 				<string>{query}</string>
 				<key>transient</key>
@@ -139,30 +126,9 @@
 			<key>version</key>
 			<integer>1</integer>
 		</dict>
-		<dict>
-			<key>config</key>
-			<dict>
-				<key>lastpathcomponent</key>
-				<false/>
-				<key>onlyshowifquerypopulated</key>
-				<true/>
-				<key>removeextension</key>
-				<false/>
-				<key>text</key>
-				<string>{query}</string>
-				<key>title</key>
-				<string>The MFA code has been copied...</string>
-			</dict>
-			<key>type</key>
-			<string>alfred.workflow.output.notification</string>
-			<key>uid</key>
-			<string>FE5E9B5F-1C87-4C59-BA2C-4E48AF0BCE45</string>
-			<key>version</key>
-			<integer>1</integer>
-		</dict>
 	</array>
 	<key>readme</key>
-	<string></string>
+	<string>See documentation at: https://github.com/robertoriv/alfred-yubikey-otp</string>
 	<key>uidata</key>
 	<dict>
 		<key>2BA3D47D-1AA5-429C-98B8-1BA91B15D0EE</key>
@@ -182,23 +148,14 @@
 		<key>533E4881-BAC3-42A1-9054-503E1A389CFC</key>
 		<dict>
 			<key>xpos</key>
-			<integer>620</integer>
-			<key>ypos</key>
-			<integer>10</integer>
-		</dict>
-		<key>FE5E9B5F-1C87-4C59-BA2C-4E48AF0BCE45</key>
-		<dict>
-			<key>xpos</key>
-			<integer>440</integer>
+			<integer>450</integer>
 			<key>ypos</key>
 			<integer>10</integer>
 		</dict>
 	</dict>
 	<key>version</key>
-	<string>0.1.0</string>
+	<string>v0.1.1</string>
 	<key>webaddress</key>
 	<string>https://github.com/robertoriv/alfred-yubikey-otp</string>
-	<key>readme</key>
-	<string>See documentation at: https://github.com/robertoriv/alfred-yubikey-otp</string>
 </dict>
 </plist>

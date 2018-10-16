@@ -7,6 +7,7 @@ import re
 
 from workflow import Workflow, MATCH_SUBSTRING, ICON_ERROR, util
 from workflow.background import run_in_background
+from icons import get_icon_for_service
 
 GITHUB_SLUG = 'robertoriv/alfred-yubikey-otp'
 
@@ -75,7 +76,13 @@ def main(wf):
         query = wf.args[0] if len(wf.args) else None
 
         for code in filter_available_codes(wf, query):
-            wf.add_item(code['name'], 'Copy to %s clipboard...' % code['code'], arg=code['code'], valid=True,)
+            wf.add_item(
+                code['name'], 
+                'Copy to %s clipboard...' % code['code'], 
+                arg=code['code'], 
+                icon=get_icon_for_service(code['name']), 
+                valid=True,
+            )
 
     wf.send_feedback()
 
