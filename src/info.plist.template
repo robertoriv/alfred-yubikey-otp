@@ -154,7 +154,7 @@
 		</dict>
 	</dict>
 	<key>version</key>
-	<string>v0.1.2</string>
+	<string>$VERSION</string>
 	<key>webaddress</key>
 	<string>https://github.com/robertoriv/alfred-yubikey-otp</string>
 </dict>
