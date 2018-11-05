@@ -1,3 +1,4 @@
 .vscode
 *.alfredworkflow
 .DS_Store
+src/info.plist
