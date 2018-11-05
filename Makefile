@@ -1,4 +1,4 @@
-VERSION:=v0.1.1
+VERSION:=$(shell cat ./src/version)
 
 all: clean build
 

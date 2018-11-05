@@ -33,3 +33,5 @@ Launch `Alfred`, and type `yfa <some ifentifier>`. Once the desired entry shows 
 I learned how to build this workflow by perusing the code for [alfred-homebrew](https://github.com/fniephaus/alfred-homebrew).
 
 This workflow uses [alfred-workflow](https://github.com/deanishe/alfred-workflow).
+
+All service icons belong to their respective owners.
