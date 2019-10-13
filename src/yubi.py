@@ -31,7 +31,7 @@ def get_all_codes():
     codes = execute(['ykman', 'oath', 'code']).splitlines()
     for code in codes:
         log.info(code)
-        code_search = re.search('(.*)(\d{6,8})', code, re.IGNORECASE)
+        code_search = re.search('(.*)((\d{6,8})|(\[Touch))', code, re.IGNORECASE)
         if code_search:
             entry = {
                 "name": code_search.group(1).strip(),
@@ -48,9 +48,10 @@ def key_for_codes(code):
 
 def filter_available_codes(wf, query):
     available_codes = wf.cached_data('ykman_available_codes', get_all_codes, max_age=10)
-    query_filter = query.split()
-    if query_filter:
-        return wf.filter(query_filter[0], available_codes, key_for_codes, match_on=MATCH_SUBSTRING)
+    if query != None:
+        query_filter = query.split()
+        if query_filter:
+            return wf.filter(query_filter[0], available_codes, key_for_codes, match_on=MATCH_SUBSTRING)
     return available_codes
 
 
@@ -64,6 +65,35 @@ def yubikey_not_inserted():
 def ykman_installed():
     return os.path.isfile('/usr/local/bin/ykman')
 
+def touch(name):
+    new_env = os.environ.copy()
+    new_env['PATH'] = '/usr/local/bin:%s' % new_env['PATH']
+    process = subprocess.Popen(['ykman', 'oath', 'code', name], stdout=subprocess.PIPE, env=new_env)
+    counter = 0
+    for i in iter(process.stdout.readline,'b'):
+        code_search = re.search('(.*)((\d{6,8}))', i, re.IGNORECASE)
+        if code_search:
+            wf.add_item(
+                name,
+                'Copy %s to clipboard' % code_search.group(2).strip(),
+                arg=code_search.group(2).strip(),
+                icon=get_icon_for_service(name), 
+                valid=True,
+            )
+            wf.send_feedback()
+            break
+        counter += 1
+        if counter == 3:
+            wf.add_item(
+                name,
+                'Timeout',
+                arg=name,
+                icon=get_icon_for_service(name), 
+                valid=True,
+            )
+            wf.send_feedback()
+            break
+    process.kill()
 
 def main(wf):
 
@@ -74,9 +104,21 @@ def main(wf):
     else:
         # extract query
         query = wf.args[0] if len(wf.args) else None
-
-        for code in filter_available_codes(wf, query):
-            wf.add_item(
+        codes = filter_available_codes(wf, query)
+        for code in codes:
+            if code['code'] == '[Touch':
+                if len(codes) == 1:
+                    touch(code['name'])
+                else:
+                    wf.add_item(
+                        code['name'], 
+                        'Require Touch', 
+                        arg=code['name'], 
+                        icon=get_icon_for_service(code['name']), 
+                        valid=True,
+                    )
+            else:
+                wf.add_item(
                 code['name'], 
                 'Copy to %s clipboard...' % code['code'], 
                 arg=code['code'], 
