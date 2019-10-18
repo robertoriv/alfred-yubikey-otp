@@ -12,7 +12,7 @@
 		<array>
 			<dict>
 				<key>destinationuid</key>
-				<string>30FF9E19-CADB-410B-BA42-AF3A609A0080</string>
+				<string>E8876F39-09DA-49C7-A165-4575E878B674</string>
 				<key>modifiers</key>
 				<integer>0</integer>
 				<key>modifiersubtext</key>
@@ -36,6 +36,44 @@
 		</array>
 		<key>533E4881-BAC3-42A1-9054-503E1A389CFC</key>
 		<array/>
+		<key>66718096-3521-42E1-A126-5D54C207C2A4</key>
+		<array>
+			<dict>
+				<key>destinationuid</key>
+				<string>30FF9E19-CADB-410B-BA42-AF3A609A0080</string>
+				<key>modifiers</key>
+				<integer>0</integer>
+				<key>modifiersubtext</key>
+				<string></string>
+				<key>vitoclose</key>
+				<false/>
+			</dict>
+		</array>
+		<key>E8876F39-09DA-49C7-A165-4575E878B674</key>
+		<array>
+			<dict>
+				<key>destinationuid</key>
+				<string>30FF9E19-CADB-410B-BA42-AF3A609A0080</string>
+				<key>modifiers</key>
+				<integer>0</integer>
+				<key>modifiersubtext</key>
+				<string></string>
+				<key>sourceoutputuid</key>
+				<string>BD242481-E9E3-4E2A-81BB-2012A8FF6D8A</string>
+				<key>vitoclose</key>
+				<false/>
+			</dict>
+			<dict>
+				<key>destinationuid</key>
+				<string>66718096-3521-42E1-A126-5D54C207C2A4</string>
+				<key>modifiers</key>
+				<integer>0</integer>
+				<key>modifiersubtext</key>
+				<string></string>
+				<key>vitoclose</key>
+				<false/>
+			</dict>
+		</array>
 	</dict>
 	<key>createdby</key>
 	<string>Roberto Rivera</string>
@@ -50,10 +88,44 @@
 		<dict>
 			<key>config</key>
 			<dict>
+				<key>autopaste</key>
+				<true/>
+				<key>clipboardtext</key>
+				<string>{query}</string>
+				<key>transient</key>
+				<false/>
+			</dict>
+			<key>type</key>
+			<string>alfred.workflow.output.clipboard</string>
+			<key>uid</key>
+			<string>30FF9E19-CADB-410B-BA42-AF3A609A0080</string>
+			<key>version</key>
+			<integer>3</integer>
+		</dict>
+		<dict>
+			<key>config</key>
+			<dict>
+				<key>soundname</key>
+				<string>Pop</string>
+				<key>systemsound</key>
+				<true/>
+			</dict>
+			<key>type</key>
+			<string>alfred.workflow.output.playsound</string>
+			<key>uid</key>
+			<string>533E4881-BAC3-42A1-9054-503E1A389CFC</string>
+			<key>version</key>
+			<integer>1</integer>
+		</dict>
+		<dict>
+			<key>config</key>
+			<dict>
 				<key>alfredfiltersresults</key>
 				<false/>
 				<key>alfredfiltersresultsmatchmode</key>
 				<integer>0</integer>
+				<key>argumenttreatemptyqueryasnil</key>
+				<false/>
 				<key>argumenttrimmode</key>
 				<integer>0</integer>
 				<key>argumenttype</key>
@@ -92,39 +164,84 @@
 			<key>uid</key>
 			<string>2BA3D47D-1AA5-429C-98B8-1BA91B15D0EE</string>
 			<key>version</key>
-			<integer>2</integer>
+			<integer>3</integer>
 		</dict>
 		<dict>
 			<key>config</key>
 			<dict>
-				<key>autopaste</key>
-				<true/>
-				<key>clipboardtext</key>
-				<string>{query}</string>
-				<key>transient</key>
-				<false/>
+				<key>conditions</key>
+				<array>
+					<dict>
+						<key>inputstring</key>
+						<string></string>
+						<key>matchcasesensitive</key>
+						<false/>
+						<key>matchmode</key>
+						<integer>4</integer>
+						<key>matchstring</key>
+						<string>(\d{6,8})</string>
+						<key>outputlabel</key>
+						<string>Code</string>
+						<key>uid</key>
+						<string>BD242481-E9E3-4E2A-81BB-2012A8FF6D8A</string>
+					</dict>
+				</array>
+				<key>elselabel</key>
+				<string>Require Touch</string>
 			</dict>
 			<key>type</key>
-			<string>alfred.workflow.output.clipboard</string>
+			<string>alfred.workflow.utility.conditional</string>
 			<key>uid</key>
-			<string>30FF9E19-CADB-410B-BA42-AF3A609A0080</string>
-			<key>version</key>
-			<integer>2</integer>
-		</dict>
-		<dict>
-			<key>config</key>
-			<dict>
-				<key>soundname</key>
-				<string>Pop</string>
-				<key>systemsound</key>
-				<true/>
-			</dict>
-			<key>type</key>
-			<string>alfred.workflow.output.playsound</string>
-			<key>uid</key>
-			<string>533E4881-BAC3-42A1-9054-503E1A389CFC</string>
+			<string>E8876F39-09DA-49C7-A165-4575E878B674</string>
 			<key>version</key>
 			<integer>1</integer>
+		</dict>
+		<dict>
+			<key>config</key>
+			<dict>
+				<key>alfredfiltersresults</key>
+				<false/>
+				<key>alfredfiltersresultsmatchmode</key>
+				<integer>0</integer>
+				<key>argumenttreatemptyqueryasnil</key>
+				<false/>
+				<key>argumenttrimmode</key>
+				<integer>0</integer>
+				<key>argumenttype</key>
+				<integer>0</integer>
+				<key>escaping</key>
+				<integer>102</integer>
+				<key>queuedelaycustom</key>
+				<integer>3</integer>
+				<key>queuedelayimmediatelyinitially</key>
+				<true/>
+				<key>queuedelaymode</key>
+				<integer>0</integer>
+				<key>queuemode</key>
+				<integer>1</integer>
+				<key>runningsubtext</key>
+				<string></string>
+				<key>script</key>
+				<string>python yubi.py "{query}"</string>
+				<key>scriptargtype</key>
+				<integer>0</integer>
+				<key>scriptfile</key>
+				<string></string>
+				<key>subtext</key>
+				<string>Touch your Yubikey...</string>
+				<key>title</key>
+				<string>{query}</string>
+				<key>type</key>
+				<integer>0</integer>
+				<key>withspace</key>
+				<true/>
+			</dict>
+			<key>type</key>
+			<string>alfred.workflow.input.scriptfilter</string>
+			<key>uid</key>
+			<string>66718096-3521-42E1-A126-5D54C207C2A4</string>
+			<key>version</key>
+			<integer>3</integer>
 		</dict>
 	</array>
 	<key>readme</key>
@@ -134,23 +251,37 @@
 		<key>2BA3D47D-1AA5-429C-98B8-1BA91B15D0EE</key>
 		<dict>
 			<key>xpos</key>
-			<integer>70</integer>
+			<integer>25</integer>
 			<key>ypos</key>
-			<integer>10</integer>
+			<integer>30</integer>
 		</dict>
 		<key>30FF9E19-CADB-410B-BA42-AF3A609A0080</key>
 		<dict>
 			<key>xpos</key>
-			<integer>260</integer>
+			<integer>575</integer>
 			<key>ypos</key>
-			<integer>10</integer>
+			<integer>15</integer>
 		</dict>
 		<key>533E4881-BAC3-42A1-9054-503E1A389CFC</key>
 		<dict>
 			<key>xpos</key>
-			<integer>450</integer>
+			<integer>735</integer>
 			<key>ypos</key>
-			<integer>10</integer>
+			<integer>15</integer>
+		</dict>
+		<key>66718096-3521-42E1-A126-5D54C207C2A4</key>
+		<dict>
+			<key>xpos</key>
+			<integer>415</integer>
+			<key>ypos</key>
+			<integer>125</integer>
+		</dict>
+		<key>E8876F39-09DA-49C7-A165-4575E878B674</key>
+		<dict>
+			<key>xpos</key>
+			<integer>275</integer>
+			<key>ypos</key>
+			<integer>40</integer>
 		</dict>
 	</dict>
 	<key>version</key>
