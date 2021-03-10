@@ -28,7 +28,7 @@ def execute(cmd_list):
 
 def get_all_codes():
     formatted_codes = []
-    codes = execute(['ykman', 'oath', 'code']).splitlines()
+    codes = execute(['ykman', 'oath', 'accounts', 'code']).splitlines()
     for code in codes:
         log.info(code)
         code_search = re.search('(.*)((\d{6,8})|(\[Touch))', code, re.IGNORECASE)
