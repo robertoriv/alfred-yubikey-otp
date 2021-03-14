@@ -32,7 +32,9 @@ def get_all_codes():
     codes = execute(["ykman", "oath", "accounts", "code"]).splitlines()
     for code in codes:
         log.info(code)
-        code_search = re.search("(.*)((\d{6,8})|(\[Touch))", code, re.IGNORECASE)
+        code_search = re.search(
+            "(.*)((\d{6,8})|(\[Requires Touch\]))", code, re.IGNORECASE
+        )
         if code_search:
             entry = {
                 "name": code_search.group(1).strip(),
@@ -152,7 +154,7 @@ def main(wf):
         query = wf.args[0] if len(wf.args) else None
         codes = filter_available_codes(wf, query)
         for code in codes:
-            if code["code"] == "[Touch":
+            if code["code"] == "[Requires Touch]":
                 if len(codes) == 1:
                     touch(code["name"])
                 else:
