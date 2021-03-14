@@ -2,3 +2,6 @@
 *.alfredworkflow
 .DS_Store
 src/info.plist
+packaging*
+pyparsing*
+workflow
