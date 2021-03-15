@@ -98,7 +98,7 @@ def ykman_installed():
     return os.path.isfile("/usr/local/bin/ykman")
 
 
-def touch(name):
+def touch(wf, name):
     new_env = os.environ.copy()
     new_env["PATH"] = "/usr/local/bin:%s" % new_env["PATH"]
     process = subprocess.Popen(
@@ -115,7 +115,6 @@ def touch(name):
                 icon=get_icon_for_service(name),
                 valid=True,
             )
-            wf.send_feedback()
             break
         counter += 1
         if counter == 3:
@@ -126,7 +125,6 @@ def touch(name):
                 icon=get_icon_for_service(name),
                 valid=True,
             )
-            wf.send_feedback()
             break
     process.kill()
 
@@ -161,7 +159,7 @@ def main(wf):
         for code in codes:
             if code["code"] == "[Requires Touch]":
                 if len(codes) == 1:
-                    touch(code["name"])
+                    touch(wf, code["name"])
                 else:
                     wf.add_item(
                         code["name"],
