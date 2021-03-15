@@ -10,15 +10,20 @@ from workflow import Workflow, MATCH_SUBSTRING, ICON_ERROR, util
 from workflow.background import run_in_background
 from icons import get_icon_for_service
 
-GITHUB_SLUG = "robertoriv/alfred-yubikey-otp"
 YKMAN_MIN_VERSION = "4.0.0"
+GITHUB_SLUG = "robertoriv/alfred-yubikey-otp"
+
+if os.path.isdir("/opt/homebrew/bin"):
+    BREW_BIN_PATH = "/opt/homebrew/bin"  # new homebrew bin folder
+else:
+    BREW_BIN_PATH = "/usr/local/bin"  # old homebrew bin folder
 
 log = None
 
 
 def execute(cmd_list):
     new_env = os.environ.copy()
-    new_env["PATH"] = "/usr/local/bin:%s" % new_env["PATH"]
+    new_env["PATH"] = "%s:%s" % (BREW_BIN_PATH, new_env["PATH"])
     cmd, err = subprocess.Popen(
         cmd_list, stdout=subprocess.PIPE, stderr=subprocess.PIPE, env=new_env
     ).communicate()
@@ -33,7 +38,7 @@ def get_all_codes():
     for code in codes:
         log.info(code)
         code_search = re.search(
-            "(.*)((\d{6,8})|(\[Requires Touch\]))", code, re.IGNORECASE
+            r"(.*)((\d{6,8})|(\[Requires Touch\]))", code, re.IGNORECASE
         )
         if code_search:
             entry = {
@@ -133,21 +138,21 @@ def main(wf):
             "Error",
             "Please install ykman (brew install ykman)...",
             icon=ICON_ERROR,
-            valid=True,
+            valid=False,
         )
     elif not check_ykman_version():
         wf.add_item(
             "Error",
             "Please upgrade to ykman >= 4.0.0 (brew upgade ykman)...",
             icon=ICON_ERROR,
-            valid=True,
+            valid=False,
         )
     elif yubikey_not_inserted():
         wf.add_item(
             "Error",
             "Please insert your Yubikey...",
             icon=ICON_ERROR,
-            valid=True,
+            valid=False,
         )
     else:
         # extract query
@@ -173,7 +178,6 @@ def main(wf):
                     icon=get_icon_for_service(code["name"]),
                     valid=True,
                 )
-
     wf.send_feedback()
 
 
