@@ -10,7 +10,6 @@ from workflow import Workflow, MATCH_SUBSTRING, ICON_ERROR, util
 from workflow.background import run_in_background
 from icons import get_icon_for_service
 
-YKMAN_MIN_VERSION = "4.0.0"
 GITHUB_SLUG = "robertoriv/alfred-yubikey-otp"
 
 if os.path.isdir("/opt/homebrew/bin"):
@@ -18,10 +17,14 @@ if os.path.isdir("/opt/homebrew/bin"):
 else:
     BREW_BIN_PATH = "/usr/local/bin"  # old homebrew bin folder
 
+YKMAN_MIN_VERSION = "4.0.0"
+YKMAN_BIN_PATH = BREW_BIN_PATH + "/ykman"
+
 log = None
 
 
 def execute(cmd_list):
+    log.debug("Executing command: " + str(cmd_list))
     new_env = os.environ.copy()
     new_env["PATH"] = "%s:%s" % (BREW_BIN_PATH, new_env["PATH"])
     cmd, err = subprocess.Popen(
@@ -36,7 +39,7 @@ def get_all_codes():
     formatted_codes = []
     codes = execute(["ykman", "oath", "accounts", "code"]).splitlines()
     for code in codes:
-        log.info(code)
+        log.debug("Received: " + code)
         code_search = re.search(
             r"(.*)((\d{6,8})|(\[Requires Touch\]))", code, re.IGNORECASE
         )
@@ -46,7 +49,7 @@ def get_all_codes():
                 "code": code_search.group(2).strip(),
             }
             formatted_codes.append(entry)
-    log.info(formatted_codes)
+    log.debug("Code objects: " + str(formatted_codes))
     return formatted_codes
 
 
@@ -71,13 +74,13 @@ def filter_available_codes(wf, query):
 def get_ykman_version():
     log.info("Getting ykman vesion...")
     v_string = execute(["ykman", "--version"]).splitlines()[0]
+    log.info("Version: " + v_string)
     return re.search(r"(\d+\.\d+\.\d+)$", v_string).group(1)
 
 
 def check_ykman_version():
     v = wf.cached_data("ykman_version", get_ykman_version, max_age=3600)
     parsed_version = version.parse(v)
-    log.info("Current ykman version: " + str(parsed_version))
     if parsed_version < version.parse(YKMAN_MIN_VERSION):
         log.info("Clearing the 'ykman_version' cache...")
         wf.cache_data(
@@ -90,17 +93,18 @@ def check_ykman_version():
 def yubikey_not_inserted():
     codes = execute(["ykman", "oath", "accounts", "code"]).splitlines()
     if "Error: No YubiKey detected!" in codes:
+        log.warn("ykman: " + str(codes))
         return True
     return False
 
 
 def ykman_installed():
-    return os.path.isfile("/usr/local/bin/ykman")
+    return os.path.isfile(YKMAN_BIN_PATH)
 
 
 def touch(wf, name):
     new_env = os.environ.copy()
-    new_env["PATH"] = "/usr/local/bin:%s" % new_env["PATH"]
+    new_env["PATH"] = "%s:%s" % (BREW_BIN_PATH, new_env["PATH"])
     process = subprocess.Popen(
         ["ykman", "oath", "accounts", "code", name], stdout=subprocess.PIPE, env=new_env
     )
@@ -157,6 +161,7 @@ def main(wf):
         query = wf.args[0] if len(wf.args) else None
         codes = filter_available_codes(wf, query)
         for code in codes:
+            log.debug("Filtered: " + str(code))
             if code["code"] == "[Requires Touch]":
                 if len(codes) == 1:
                     touch(wf, code["name"])
