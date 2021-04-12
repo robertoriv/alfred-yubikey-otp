@@ -6,7 +6,7 @@ import sys
 import re
 from packaging import version
 
-from workflow import Workflow, MATCH_SUBSTRING, ICON_ERROR, util
+from workflow import Workflow, MATCH_SUBSTRING, ICON_ERROR
 from workflow.background import run_in_background
 from icons import get_icon_for_service
 
@@ -69,6 +69,31 @@ def filter_available_codes(wf, query):
                 match_on=MATCH_SUBSTRING,
             )
     return available_codes
+
+
+def exact_match(wf, query):
+    available_codes = wf.cached_data("ykman_available_codes", get_all_codes, max_age=10)
+    codes = wf.filter(
+        query,
+        available_codes,
+        key_for_codes,
+        match_on=MATCH_SUBSTRING,
+    )
+
+    if len(codes) == 1:
+        return codes
+    else:
+        log.debug(
+            "Search returned more than one code: \n"
+            + str([code["name"] for code in codes])
+        )
+
+        # Workflow.filter uses fuzzy searching and we need to manually apply our own filter on top
+        for code in codes:
+            if code["name"] == query:
+                return [code]
+
+    raise RuntimeError("Could not find an exact match for: {}".format(query))
 
 
 def get_ykman_version():
@@ -134,6 +159,7 @@ def touch(wf, name):
 
 
 def main(wf):
+    log.debug("Script was executed with the following args: " + ", ".join(wf.args))
 
     if not ykman_installed():
         wf.add_item(
@@ -157,9 +183,18 @@ def main(wf):
             valid=False,
         )
     else:
-        # extract query
-        query = wf.args[0] if len(wf.args) else None
-        codes = filter_available_codes(wf, query)
+        if wf.args[0] == "search" and len(wf.args) > 1:
+            log.debug("Performing search for: " + wf.args[1])
+            query = wf.args[1]
+            codes = filter_available_codes(wf, query)
+        elif wf.args[0] == "exact" and len(wf.args) > 1:
+            log.debug("Retrieving exact match: " + wf.args[1])
+            query = wf.args[1]
+            codes = exact_match(wf, query)
+        else:
+            log.debug("Retrieving all codes...")
+            codes = filter_available_codes(wf, None)
+
         for code in codes:
             log.debug("Filtered: " + str(code))
             if code["code"] == "[Requires Touch]":
