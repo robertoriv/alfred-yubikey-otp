@@ -284,6 +284,15 @@
 			<integer>40</integer>
 		</dict>
 	</dict>
+	<key>variables</key>
+	<dict>
+		<key>PASSWORD</key>
+		<string></string>
+	</dict>
+	<key>variablesdontexport</key>
+	<array>
+		<string>PASSWORD</string>
+	</array>
 	<key>version</key>
 	<string>$VERSION</string>
 	<key>webaddress</key>

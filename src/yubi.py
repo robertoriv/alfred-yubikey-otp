@@ -37,7 +37,10 @@ def execute(cmd_list):
 
 def get_all_codes():
     formatted_codes = []
-    codes = execute(["ykman", "oath", "accounts", "code"]).splitlines()
+    cmd = ["ykman", "oath", "accounts", "code"]
+    if ("PASSWORD" in os.environ and os.environ["PASSWORD"]):
+        cmd = ["ykman", "oath", "accounts", "code", "-p", os.environ["PASSWORD"]]
+    codes = execute(cmd).splitlines()
     for code in codes:
         log.debug("Received: " + code)
         code_search = re.search(
@@ -116,7 +119,10 @@ def check_ykman_version():
 
 
 def yubikey_not_inserted():
-    codes = execute(["ykman", "oath", "accounts", "code"]).splitlines()
+    cmd = ["ykman", "oath", "accounts", "code"]
+    if ("PASSWORD" in os.environ and os.environ["PASSWORD"]):
+        cmd = ["ykman", "oath", "accounts", "code", "-p", os.environ["PASSWORD"]]
+    codes = execute(cmd).splitlines()
     if "Error: No YubiKey detected!" in codes:
         log.warn("ykman: " + str(codes))
         return True
@@ -130,9 +136,10 @@ def ykman_installed():
 def touch(wf, name):
     new_env = os.environ.copy()
     new_env["PATH"] = "%s:%s" % (BREW_BIN_PATH, new_env["PATH"])
-    process = subprocess.Popen(
-        ["ykman", "oath", "accounts", "code", name], stdout=subprocess.PIPE, env=new_env
-    )
+    cmd = ["ykman", "oath", "accounts", "code", name]
+    if ("PASSWORD" in os.environ and os.environ["PASSWORD"]):
+        cmd = ["ykman", "oath", "accounts", "code", name, "-p", os.environ["PASSWORD"]]
+    process = subprocess.Popen(cmd, stdout=subprocess.PIPE, env=new_env)
     counter = 0
     for i in iter(process.stdout.readline, "b"):
         code_search = re.search(r"(.*)((\d{6,8}))", i, re.IGNORECASE)
