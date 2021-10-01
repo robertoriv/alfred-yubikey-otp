@@ -179,7 +179,7 @@
 						<key>matchmode</key>
 						<integer>4</integer>
 						<key>matchstring</key>
-						<string>(\d{6,8})</string>
+						<string>^(\d{6,8})$</string>
 						<key>outputlabel</key>
 						<string>Code</string>
 						<key>uid</key>
